@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Levell — AI-Powered Education for Every Child</title>
+  <meta name="description" content="Closing the gap between state and private education with intelligent, adaptive learning. Join the waitlist.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a2e;
+      --paper: #faf8f4;
+      --accent: #e85d3a;
+      --accent-soft: #fceee9;
+      --sage: #4a7c6f;
+      --sage-soft: #e8f0ed;
+      --muted: #8a8a9a;
+      --rule: #e2e0da;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'Outfit', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Grain overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(250, 248, 244, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav a.nav-cta {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--paper);
+      background: var(--ink);
+      padding: 0.6rem 1.4rem;
+      border-radius: 100px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    nav a.nav-cta:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6.5vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 560px;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+
+    .hero-form {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .hero-form input {
+      font-family: var(--sans);
+      font-size: 1rem;
+      padding: 0.85rem 1.25rem;
+      border: 1.5px solid var(--rule);
+      border-radius: 100px;
+      background: white;
+      outline: none;
+      width: 300px;
+      transition: border-color 0.3s;
+    }
+
+    .hero-form input:focus {
+      border-color: var(--sage);
+    }
+
+    .hero-form input::placeholder {
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .hero-form button {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.85rem 2rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+
+    .hero-form button:hover {
+      background: #d14e2e;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(232, 93, 58, 0.3);
+    }
+
+    .hero-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1s;
+    }
+
+    /* ─── Decorative blob ─── */
+    .hero-decor {
+      position: absolute;
+      right: -180px;
+      top: 15%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle at 40% 40%, var(--accent-soft), transparent 70%),
+                  radial-gradient(circle at 70% 60%, var(--sage-soft), transparent 60%);
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.7;
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    /* ─── Divider ─── */
+    .divider {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .divider hr {
+      border: none;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ─── Problem / Vision ─── */
+    .vision {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .vision-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--sage);
+      margin-bottom: 1rem;
+    }
+
+    .vision h2 {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+
+    .vision p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ─── How it works ─── */
+    .how {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .how-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .how-header h2 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .how-card {
+      padding: 2rem;
+      background: white;
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .how-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26, 26, 46, 0.06);
+    }
+
+    .how-number {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .how-card h3 {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .how-card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ─── Stats band ─── */
+    .stats {
+      background: var(--ink);
+      padding: 4rem 2rem;
+      margin: 3rem 0;
+    }
+
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: rgba(250, 248, 244, 0.6);
+      font-weight: 300;
+    }
+
+    /* ─── Final CTA ─── */
+    .cta {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 2rem 8rem;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .cta-form {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-form input {
+      font-family: var(--sans);
+      font-size: 1rem;
+      padding: 0.85rem 1.25rem;
+      border: 1.5px solid var(--rule);
+      border-radius: 100px;
+      background: white;
+      outline: none;
+      width: 300px;
+      transition: border-color 0.3s;
+    }
+
+    .cta-form input:focus { border-color: var(--sage); }
+
+    .cta-form button {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.85rem 2rem;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .cta-form button:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--ink); }
+
+    /* ─── Success state ─── */
+    .form-success {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--sage);
+      font-weight: 500;
+    }
+
+    .form-success.show { display: flex; }
+
+    .form-success svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-15px, 15px) scale(1.03); }
+    }
+
+    /* ─── Scroll reveal ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero { padding: 7rem 1.25rem 3rem; }
+      .hero-decor { display: none; }
+      .hero-form input { width: 100%; }
+      .vision { grid-template-columns: 1fr; gap: 2.5rem; padding: 3.5rem 1.25rem; }
+      .how { padding: 3.5rem 1.25rem; }
+      .how-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .cta { padding: 4rem 1.25rem 5rem; }
+      .cta-form input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="logo">Levell<span>.</span></a>
+    <a href="#waitlist" class="nav-cta">Join waitlist</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-decor"></div>
+    <p class="hero-eyebrow">AI-powered learning for every child</p>
+    <h1>Education shouldn't depend on <em>postcode</em></h1>
+    <p class="hero-sub">An intelligent learning platform that adapts to every child — closing the gap between state and private education with personalised, curriculum-aligned support.</p>
+    <form class="hero-form" id="heroForm">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Get early access</button>
+    </form>
+    <div class="form-success" id="heroSuccess">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+      <span>You're on the list. We'll be in touch soon.</span>
+    </div>
+    <p class="hero-note">Free to join. No spam, ever. Be first to know when we launch.</p>
+  </section>
+
+  <div class="divider"><hr></div>
+
+  <!-- Vision -->
+  <section class="vision reveal">
+    <div>
+      <p class="vision-label">The problem</p>
+      <h2>The attainment gap is widening</h2>
+      <p>Children in state schools consistently fall behind their privately-educated peers — not because of ability, but because of access to resources, tutoring, and individualised attention. The system wasn't built for every child to thrive.</p>
+    </div>
+    <div>
+      <p class="vision-label">Our belief</p>
+      <h2>AI can be the great equaliser</h2>
+      <p>By combining adaptive learning with the national curriculum, we're building a platform that gives every child the kind of personalised support that was once reserved for the few. Smart, compassionate, and always available.</p>
+    </div>
+  </section>
+
+  <div class="divider"><hr></div>
+
+  <!-- How it works -->
+  <section class="how reveal">
+    <div class="how-header">
+      <h2>How it works</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-number">1</div>
+        <h3>Understand the child</h3>
+        <p>A brief assessment maps strengths, gaps, and learning style — building a profile that evolves as your child grows.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-number">2</div>
+        <h3>Adapt in real time</h3>
+        <p>AI-driven lessons adjust difficulty, pace, and style on the fly — so your child is always in their zone of proximal development.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-number">3</div>
+        <h3>Empower parents</h3>
+        <p>Clear progress dashboards and weekly insights help you support your child's learning without needing to be a teacher yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats reveal">
+    <div class="stats-inner">
+      <div>
+        <div class="stat-number">2×</div>
+        <div class="stat-label">Faster progress with adaptive learning</div>
+      </div>
+      <div>
+        <div class="stat-number">93%</div>
+        <div class="stat-label">Of parents want more personalised support</div>
+      </div>
+      <div>
+        <div class="stat-number">£0</div>
+        <div class="stat-label">Should be the barrier to a great education</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="cta reveal" id="waitlist">
+    <h2>Be part of something bigger</h2>
+    <p>We're building this with parents, teachers, and children. Join the waitlist to shape what comes next.</p>
+    <form class="cta-form" id="ctaForm">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Join the waitlist</button>
+    </form>
+    <div class="form-success" id="ctaSuccess" style="justify-content: center; margin-top: 1rem;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+      <span>You're on the list. We'll be in touch soon.</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Levell. A <a href="https://made-real.co" target="_blank">Made-Real</a> venture.</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Form handling (client-side only — swap for real endpoint)
+    function handleSubmit(formId, successId) {
+      const form = document.getElementById(formId);
+      const success = document.getElementById(successId);
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.style.display = 'none';
+        success.classList.add('show');
+      });
+    }
+    handleSubmit('heroForm', 'heroSuccess');
+    handleSubmit('ctaForm', 'ctaSuccess');
+  </script>
+
+</body>
+</html>
